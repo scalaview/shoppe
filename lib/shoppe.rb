@@ -1,7 +1,6 @@
 require "coffee-rails"
 require "sass-rails"
 require "jquery-rails"
-require 'haml'
 require 'bcrypt'
 require 'dynamic_form'
 require 'kaminari'
