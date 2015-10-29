@@ -4,7 +4,7 @@ namespace :shoppe do
   task :seed => :environment do
     require File.join(Shoppe.root, 'db', 'seeds')
   end
-  
+
   desc "Create a default admin user"
   task :create_default_user => :environment do
     Shoppe::User.create(:email_address => 'admin@example.com', :password => 'password', :password_confirmation => 'password', :first_name => 'Default', :last_name => 'Admin')
@@ -15,12 +15,12 @@ namespace :shoppe do
     puts "    Password........: password"
     puts
   end
-  
+
   desc "Import default set of countries"
   task :import_countries => :environment do
     Shoppe::CountryImporter.import
   end
-  
+
   desc "Run the key setup tasks for a new application"
   task :setup => :environment do
     Rake::Task["shoppe:import_countries"].invoke    if Shoppe::Country.all.empty?
@@ -49,5 +49,5 @@ namespace :shoppe do
       attach.save!
     end
   end
-  
+
 end

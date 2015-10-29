@@ -6,7 +6,7 @@
     <%= javascript_include_tag 'shoppe/application' %>
     <%= csrf_meta_tags %>
     <script>
-      
+
       window.Shoppe = {}
       window.Shoppe.currencyUnit = "#{h Shoppe.settings.currency_unit}";
 
@@ -18,7 +18,7 @@
         <h1>
           <%= link_to "Shoppe", root_path %>
         </h1>
-        <p>v#{Shoppe::VERSION}</p>
+        <p>v <%= Shoppe::VERSION %></p>
       </header>
       <p class="logged">
         <%= t('.logged_in_as', user_name: current_user.full_name) %>

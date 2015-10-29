@@ -1,3 +1,17 @@
-(line 11, column 7):
-unexpected end of input
-expecting lf new-line
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>
+      <%= @page_title %>
+    </title>
+    <%= stylesheet_link_tag 'shoppe/printable', :media => :all %>
+    <script type="text/javascript">
+      window.print();
+    </script>
+  </head>
+  <body>
+    <div id="content">
+      <%= :yield %>
+    </div>
+  </body>
+</html>
