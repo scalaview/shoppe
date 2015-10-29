@@ -1,7 +1,7 @@
 # Shoppe
 
 Shoppe is an Rails-based e-commerce platform which allows you to easily introduce a
-catalogue-based store into your Rails 4 applications. 
+catalogue-based store into your Rails 4 applications.
 
 -[![Build Status](https://travis-ci.org/tryshoppe/shoppe.svg?branch=master)](https://travis-ci.org/tryshoppe/shoppe)
 ![GemVersion](https://badge.fury.io/rb/shoppe.png)
@@ -40,7 +40,8 @@ instructions below and you'll be up and running in minutes.
     bundle
     rails generate shoppe:setup
     rails generate nifty:key_value_store:migration
-    rake db:migrate shoppe:setup
+    rake db:schema:load
+    rake db:migrate shoppe:setup shoppe:seed
     rails server
 
 ## Contribution
