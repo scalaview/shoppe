@@ -1,0 +1,25 @@
+<% @page_title = "#{t('shoppe.orders.edit_order')} ##{@order.number}" %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.orders.back_to_order'), @order, :class => 'button grey' %>
+  </p>
+  <h2 class="orders">"#{t('shoppe.orders.edit_order')} <b>##{@order.number}</b>"</h2>
+<% end %>
+<%= form_for @order, :html => {:class => 'orderForm'} do |f| %>
+  <%= f.error_messages %>
+  <%= render 'form', :f => f %>
+  <%= field_set_tag  t('shoppe.orders.notes') do %>
+    <dl>
+      <dd>
+        <%= f.text_area :notes, :class => 'text' %>
+      </dd>
+    </dl>
+  <% end %>
+  <%= field_set_tag t('shoppe.orders.ordered_products'), :class => 'padded' do %>
+    <%= render 'order_items_form', :f => f %>
+  <% end %>
+  <p class="submit">
+    <%= f.submit t('shoppe.orders.save_order') , :class => 'button green' %>
+    <%= link_to t('shoppe.cancel'), @order, :class => 'button' %>
+  </p>
+<% end %>

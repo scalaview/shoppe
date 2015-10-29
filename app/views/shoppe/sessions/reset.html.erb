@@ -1,0 +1,18 @@
+<% @page_title =  t('shoppe.sessions.reset_password') %>
+<%= display_flash %>
+<div class="loginArea">
+  <h2>
+    <%= t('shoppe.sessions.reset_password') %>
+  </h2>
+  <%= form_tag :login_reset, :class => 'login' do %>
+    <p class="field">
+      <%= text_field_tag 'email_address', params[:email_address], :class => 'focus', :placeholder => t('shoppe.sessions.email') %>
+    </p>
+    <p class="submit">
+      <%= submit_tag t('shoppe.sessions.reset')  , :class => 'button green' %>
+    </p>
+    <p class="reset">
+      <%= link_to t('shoppe.sessions.back_to_login') , login_path %>
+    </p>
+  <% end %>
+</div>

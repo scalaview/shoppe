@@ -1,0 +1,113 @@
+<% @page_title = t('shoppe.customers.customers') + " - #{@customer.name}" %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.customers.new_address'), [:new, @customer, :address], class: "button" %>
+    <%= link_to t('shoppe.customers.edit'), [:edit, @customer], class: "button" %>
+  </p>
+  <h2 class="users">
+    <%= t('shoppe.customers.customers') + "- #{@customer.name}" %>
+  </h2>
+<% end %>
+<div id="customer">
+  <div class="details">
+    <div class="left">
+      <dl>
+        <dt>
+          <%= t('shoppe.customers.name') %>
+        </dt>
+        <dd>
+          <%= @customer.full_name %>
+        </dd>
+        <dt>
+          <%= t('shoppe.customers.company') %>
+        </dt>
+        <dd>
+          <%= @customer.company.blank? ? '-' : @customer.company %>
+        </dd>
+      </dl>
+    </div>
+    <div class="right">
+      <dl>
+        <dt>
+          <%= t('shoppe.customers.email') %>
+        </dt>
+        <dd>
+          <%= mail_to @customer.email %>
+        </dd>
+        <dt>
+          <%= t('shoppe.customers.phone') %>
+        </dt>
+        <dd>
+          <%= @customer.phone %>
+        </dd>
+        <dt>
+          <%= t('shoppe.customers.mobile_phone') %>
+        </dt>
+        <dd>
+          <%= @customer.mobile %>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <%= field_set_tag t('shoppe.customers.addresses'), :class => 'padded' do %>
+    <%= render "addresses" %>
+  <% end %>
+  <%= field_set_tag t('shoppe.orders.orders'), :class => 'padded' do %>
+    <div class="table">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>
+              <%= t('shoppe.orders.number') %>
+            </th>
+            <th>
+              <%= t('shoppe.orders.status') %>
+            </th>
+            <th>
+              <%= t('shoppe.orders.products') %>
+            </th>
+            <th>
+              <%= t('shoppe.orders.total') %>
+            </th>
+            <th>
+              <%= t('shoppe.orders.payment') %>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @orders.empty? %>
+            <tr class="empty">
+              <td colspan="6">
+                <%= t('shoppe.orders.no_orders') %>
+              </td>
+            </tr>
+          <% else %>
+            <% for order in @orders %>
+              <tr>
+                <td>
+                  <%= link_to order.number, order %>
+                </td>
+                <td>
+                  <%= status_tag order.status %>
+                </td>
+                <td>
+                  <ul>
+                    <% for item in order.order_items %>
+                      <li>#{item.quantity} x #{item.ordered_item.full_name}</li>
+                    <% end %>
+                  </ul>
+                </td>
+                <td>
+                  <%= number_to_currency order.total %>
+                </td>
+                <td>
+                  <%= boolean_tag order.paid_in_full?, nil, :true_text => number_to_currency(order.amount_paid), :false_text => number_to_currency(order.amount_paid) %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

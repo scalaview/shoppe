@@ -1,0 +1,13 @@
+<% @page_title = t('shoppe.shared.error') %>
+<%= display_flash %>
+<div class="error">
+  <h2>
+    <%= t('shoppe.shared.error_occured') %>
+  </h2>
+  <p class="message">
+    <%= @exception.message %>
+  </p>
+  <p class="back">
+    <%= link_to "&larr;#{t('shoppe.shared.back_to_shoppe')}".html_safe, root_path, :class => 'button' %>
+  </p>
+</div>

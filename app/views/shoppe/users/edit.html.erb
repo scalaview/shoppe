@@ -1,0 +1,10 @@
+<% @page_title = t('shoppe.users.users') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.users.back_to_users'), :users, :class => 'button' %>
+  </p>
+  <h2 class="users">
+    <%= t('shoppe.users.users') %>
+  </h2>
+<% end %>
+<%= render 'form' %>

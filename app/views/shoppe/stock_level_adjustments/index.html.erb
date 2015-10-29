@@ -1,0 +1,67 @@
+<% @page_title = t('shoppe.stock_level_adjustments.stock_levels_title', item_name: @item.name) %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <% case @item %>
+    <% when Shoppe::Product %>
+      <% @active_nav = :products %>
+      <%= link_to t('shoppe.stock_level_adjustments.edit_product'), [:edit, @item], :class => 'button' %>
+      <%= link_to t('shoppe.stock_level_adjustments.back_to_product'), :products, :class => 'button' %>
+    <% end %>
+  </p>
+  <h2 class="products">
+    <%= t('shoppe.stock_level_adjustments.stock_levels_for', item_name: @item.name) %>
+  </h2>
+<% end %>
+<div class="table">
+  <p class="info">
+    <%= t('shoppe.stock_level_adjustments.current_stock_level_html', item_stock: @item.stock).html_safe %>
+    <span class="float-right">
+      <%= page_entries_info @stock_level_adjustments %>
+    </span>
+  </p>
+  <%= form_for @new_sla do |f| %>
+    <%= hidden_field_tag 'item_type', params[:item_type] %>
+    <%= hidden_field_tag 'item_id', params[:item_id] %>
+    <table class="data">
+      <thead>
+        <tr>
+          <th width="25%">
+            <%= t('shoppe.stock_level_adjustments.date') %>
+          </th>
+          <th width="50%">
+            <%= t('shoppe.stock_level_adjustments.description') %>
+          </th>
+          <th width="25%">
+            <%= t('shoppe.stock_level_adjustments.adjustment') %>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="form">
+          <td></td>
+          <td class="desc">
+            <%= f.text_field :description %>
+          </td>
+          <td class="adjustment">
+            <%= f.text_field :adjustment %>
+            <%= f.submit t('shoppe.stock_level_adjustments.add'), :class => 'button button-mini green' %>
+          </td>
+        </tr>
+        <% for sla in @stock_level_adjustments %>
+          <tr>
+            <td>
+              <%= l(sla.created_at, format: :long) %>
+            </td>
+            <td>
+              <%= sla.description %>
+            </td>
+            <td>
+              <%= sla.adjustment > 0  ? "+#{sla.adjustment}" : sla.adjustment %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @stock_level_adjustments %>
+  <% end %>
+</div>

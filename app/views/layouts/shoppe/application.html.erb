@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>#{@page_title} - Shoppe</title>
+    <%= stylesheet_link_tag 'shoppe/application' %>
+    <%= javascript_include_tag 'shoppe/application' %>
+    <%= csrf_meta_tags %>
+    <script>
+      
+      window.Shoppe = {}
+      window.Shoppe.currencyUnit = "#{h Shoppe.settings.currency_unit}";
+
+    </script>
+  </head>
+  <body>
+    <nav class="sidebar">
+      <header class="logo">
+        <h1>
+          <%= link_to "Shoppe", root_path %>
+        </h1>
+        <p>v#{Shoppe::VERSION}</p>
+      </header>
+      <p class="logged">
+        <%= t('.logged_in_as', user_name: current_user.full_name) %>
+      </p>
+      <ul>
+        <% for item in Shoppe::NavigationManager.find(:admin_primary).items %>
+          <li>
+            <%= navigation_manager_link item %>
+          </li>
+        <% end %>
+        <li>
+          <%= link_to t('.logout'), [:logout], :method => :delete %>
+        </li>
+      </ul>
+    </nav>
+    <header class="main">
+      <%= yield :header %>
+    </header>
+    <div id="content">
+      <%= display_flash %>
+      <section class="main">
+        <%= yield %>
+      </section>
+    </div>
+    <footer>
+      <p class="store">
+        <%= link_to "&larr; #{t('.goto')} #{Shoppe.settings.store_name}".html_safe, '/' %>
+      </p>
+    </footer>
+  </body>
+</html>

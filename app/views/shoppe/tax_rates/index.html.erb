@@ -1,0 +1,35 @@
+<% @page_title = t('shoppe.tax_rates.tax_rates') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.tax_rates.new_tax_rate'), :new_tax_rate, :class => 'button green' %>
+  </p>
+  <h2 class="tax_rates">
+    <%= t('shoppe.tax_rates.tax_rates') %>
+  </h2>
+<% end %>
+<div class="table">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>
+          <%= t('shoppe.tax_rates.name') %>
+        </th>
+        <th>
+          <%= t('shoppe.tax_rates.rate') %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for tax_rate in @tax_rates %>
+        <tr>
+          <td>
+            <%= link_to tax_rate.name, [:edit, tax_rate] %>
+          </td>
+          <td>
+            <%= tax_rate.rate %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

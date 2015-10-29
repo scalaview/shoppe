@@ -1,0 +1,36 @@
+<%= form_for [@order, Shoppe::Payment.new(:amount => @order.balance)] do |f| %>
+  <dl class="text">
+    <dt>
+      <%= f.label :method, t('shoppe.orders.method') %>
+    </dt>
+    <dd>
+      <%= f.text_field :method, :class => 'text' %>
+    </dd>
+  </dl>
+  <dl class="text">
+    <dt>
+      <%= f.label :reference, t('shoppe.orders.reference') %>
+    </dt>
+    <dd>
+      <%= f.text_field :reference, :class => 'text' %>
+    </dd>
+  </dl>
+  <dl class="amount">
+    <dt>
+      <%= f.label :amount, t('shoppe.orders.amount') %>
+    </dt>
+    <dd>
+      <div class="moneyInput">
+        <div class="currency">
+          <%= Shoppe.settings.currency_unit.html_safe %>
+        </div>
+        <%= f.text_field :amount, :class => 'text' %>
+      </div>
+    </dd>
+  </dl>
+  <dl class="submit">
+    <dd>
+      <%= f.submit t('shoppe.orders.add_payment') , :class => 'button green' %>
+    </dd>
+  </dl>
+<% end %>

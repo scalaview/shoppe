@@ -1,0 +1,107 @@
+<% @page_title = "#{t('shoppe.orders.despatch_note.order_number')} #{@order.number}" %>
+<div class="despatchNote">
+  <header>
+    <h1>
+      <%= Shoppe.settings.store_name %>
+    </h1>
+    <h2>
+      <%= t("shoppe.orders.despatch_note.despatch_note") %>
+    </h2>
+  </header>
+  <div class="address">
+    <p class="name">
+      <%= @order.delivery_name %>
+    </p>
+    <p>
+      <%= @order.delivery_address1 %>
+    </p>
+    <p>
+      <%= @order.delivery_address2 %>
+    </p>
+    <p>
+      <%= @order.delivery_address3 %>
+    </p>
+    <p>
+      <%= @order.delivery_address4 %>
+    </p>
+    <p>
+      <%= @order.delivery_postcode %>
+    </p>
+    <p>
+      <%= @order.delivery_country.try(:name) %>
+    </p>
+  </div>
+  <table class="details">
+    <tr>
+      <th>
+        <%= t("shoppe.orders.despatch_note.order_number") %>
+      </th>
+      <th>
+        <%= t("shoppe.orders.despatch_note.order_placed") %>
+      </th>
+      <th>
+        <%= t("shoppe.orders.despatch_note.total_weight") %>
+      </th>
+      <th>
+        <%= t("shoppe.orders.despatch_note.telephone") %>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <%= @order.number %>
+      </td>
+      <td>
+        <%= @order.received? ? @order.received_at.to_s(:long) : 'n/a' %>
+      </td>
+      <td>
+        <%= number_to_weight @order.total_weight %>
+      </td>
+      <td>
+        <%= @order.phone_number %>
+      </td>
+    </tr>
+  </table>
+  <table class="items">
+    <thead>
+      <tr>
+        <th>
+          <%= t("shoppe.orders.despatch_note.quantity") %>
+        </th>
+        <th>
+          <%= t("shoppe.orders.despatch_note.product") %>
+        </th>
+        <th>
+          <%= t("shoppe.orders.despatch_note.sku") %>
+        </th>
+        <th>
+          <%= t("shoppe.orders.despatch_note.weight") %>
+        </th>
+        <th>
+          <%= t("shoppe.orders.despatch_note.packed?") %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for item in @order.order_items %>
+        <tr>
+          <td>
+            <%= item.quantity %>
+          </td>
+          <td>
+            <%= item.ordered_item.full_name %>
+          </td>
+          <td>
+            <%= item.ordered_item.sku %>
+          </td>
+          <td>
+            <%= number_to_weight item.weight %>
+          </td>
+          <td class="check"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <p class="footer">
+    <%= t('shoppe.orders.despatch_note.footer', :default => "Thank you for your order!") %>
+  </p>
+</div>

@@ -1,0 +1,54 @@
+<% @page_title = t('shoppe.product_category.product_categories') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.product_category.new_category'), :new_product_category, :class => 'button green' %>
+  </p>
+  <h2 class="products">
+    <%= t('shoppe.product_category.product_categories') %>
+  </h2>
+<% end %>
+<div class="table">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>
+          <%= t('shoppe.product_category.name') %>
+        </th>
+        <% unless @product_categories_without_parent.empty? %>
+          <% I18n.available_locales.each do |i| %>
+            <th></th>
+          <% end %>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @product_categories_without_parent.empty? %>
+        <tr class="empty">
+          <td>
+            <%= t('shoppe.product_category.no_categories') %>
+          </td>
+        </tr>
+      <% else %>
+        <% for cat in @product_categories_without_parent %>
+          <tr>
+            <td>
+              <%= link_to cat.name, [:edit, cat] %>
+            </td>
+            <% I18n.available_locales.each do |i| %>
+              <% if cat.translations.where(locale: i).count >= 1 %>
+                <td>
+                  <%= link_to i, edit_product_category_localisation_path(cat, cat.translations.where(locale: i).first.id) %>
+                </td>
+              <% else %>
+                <td>
+                  <%= link_to i, new_product_category_localisation_path(cat, locale_field: i) %>
+                </td>
+              <% end %>
+            <% end %>
+          </tr>
+          <%= nested_product_category_rows(cat) %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

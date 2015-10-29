@@ -1,0 +1,46 @@
+<div class="addresses">
+  <div class="table">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>
+            <%= t('shoppe.customers.type') %>
+          </th>
+          <th>
+            <%= t('shoppe.customers.default') %>
+          </th>
+          <th>
+            <%= t('shoppe.custoemrs.address') %>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @addresses.empty? %>
+          <tr class="empty">
+            <td colspan="4">
+              <%= t('shoppe.customers.no_addresses') %>
+            </td>
+          </tr>
+        <% else %>
+          <% for address in @addresses %>
+            <tr>
+              <td>
+                <%= address.address_type.capitalize %>
+              </td>
+              <td>
+                <%= boolean_tag address.default %>
+              </td>
+              <td>
+                <%= address.full_address %>
+              </td>
+              <td>
+                <%= link_to t('shoppe.customers.edit'), edit_customer_address_path(@customer, address) %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

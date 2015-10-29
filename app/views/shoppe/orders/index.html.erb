@@ -1,0 +1,77 @@
+<% @page_title = t('shoppe.orders.orders') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.orders.new_order'), :new_order, :class => 'button green' %>
+    <%= link_to t('shoppe.orders.search_orders'), '#', :class => 'button', :rel => 'searchOrders' %>
+  </p>
+  <h2 class="orders">
+    <%= t('shoppe.orders.orders') %>
+    <span>
+      <%= page_entries_info @orders %>
+    </span>
+  </h2>
+<% end %>
+<%= render 'search_form' %>
+<div class="table">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>
+          <%= t('shoppe.orders.number') %>
+        </th>
+        <th>
+          <%= t('shoppe.orders.customer') %>
+        </th>
+        <th>
+          <%= t('shoppe.orders.status') %>
+        </th>
+        <th>
+          <%= t('shoppe.orders.products') %>
+        </th>
+        <th>
+          <%= t('shoppe.orders.total') %>
+        </th>
+        <th>
+          <%= t('shoppe.orders.payment') %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @orders.empty? %>
+        <tr class="empty">
+          <td colspan="6">
+            <%= t('shoppe.orders.no_orders') %>
+          </td>
+        </tr>
+      <% else %>
+        <% for order in @orders %>
+          <tr>
+            <td>
+              <%= link_to order.number, order %>
+            </td>
+            <td>
+              <%= order.customer_name %>
+            </td>
+            <td>
+              <%= status_tag order.status %>
+            </td>
+            <td>
+              <ul>
+                <% for item in order.order_items %>
+                  <li>#{item.quantity} x #{item.ordered_item.full_name}</li>
+                <% end %>
+              </ul>
+            </td>
+            <td>
+              <%= number_to_currency order.total %>
+            </td>
+            <td>
+              <%= boolean_tag order.paid_in_full?, nil, :true_text => number_to_currency(order.amount_paid), :false_text => number_to_currency(order.amount_paid) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= paginate @orders %>

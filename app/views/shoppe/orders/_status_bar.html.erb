@@ -1,0 +1,60 @@
+<div class="status-bar">
+  <ul>
+    <% if @order.received? %>
+      <li class="received">
+        <h4>
+          <%= t('shoppe.orders.order_received') %>
+        </h4>
+        <p>
+          <%= t('shoppe.orders.status_bar.on_date', on: @order.received_at.to_s(:short)) %>
+          <%= t('shoppe.orders.status_bar.from_ip', ip: @order.ip_address) %>
+        </p>
+      </li>
+    <% end %>
+    <% if @order.accepted? %>
+      <li class="accepted">
+        <h4>
+          <%= t('shoppe.orders.order_accepted') %>
+        </h4>
+        <p>
+          <%= t('shoppe.orders.status_bar.on_date', on: @order.accepted_at.to_s(:short)) %>
+          <% if @order.accepter %>
+            <%= t('shoppe.orders.status_bar.by_user', user: @order.accepter.short_name) %>
+          <% end %>
+        </p>
+      </li>
+    <% elsif @order.rejected? %>
+      <li class="rejected">
+        <h4>
+          <%= t('shoppe.orders.order_rejected') %>
+        </h4>
+        <p>
+          <%= t('shoppe.orders.status_bar.on_date', on: @order.rejected_at.to_s(:short)) %>
+          <% if @order.rejecter %>
+            <%= t('shoppe.orders.status_bar.by_user', user: @order.rejecter.short_name) %>
+          <% end %>
+        </p>
+      </li>
+    <% end %>
+    <% if @order.shipped? %>
+      <li class="shipped">
+        <h4>
+          <%= t('shoppe.orders.order_shipped') %>
+        </h4>
+        <p>
+          <%= t('shoppe.orders.status_bar.on_date', on: @order.shipped_at.to_s(:short)) %>
+          <%= t('shoppe.orders.status_bar.by_user', user: @order.shipper.try(:short_name) || 'Unknown') %>
+        </p>
+        <% if @order.delivery_service && @order.courier_tracking_url %>
+          <p>
+            <%= link_to t('shoppe.orders.status_bar.tracking_url'), @order.courier_tracking_url %>
+          </p>
+        <% else %>
+          <p>
+            <%= t('shoppe.orders.status_bar.consignment_no_html', consignment_number: @order.consignment_number) %>
+          </p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -1,0 +1,143 @@
+<%= field_set_tag t('shoppe.orders.billing_address') do %>
+  <dl>
+    <dt>
+      <%= f.label :customer_id, t('shoppe.orders.customer') %>
+    </dt>
+    <dd>
+      <%= f.collection_select :customer_id, Shoppe::Customer.ordered, :id, :name, {:include_blank => true}, {:data => {:placeholder => t('shoppe.orders.select_customer')}} %>
+    </dd>
+  </dl>
+  <div class="splitContainer">
+    <dl class="third">
+      <dt>
+        <%= f.label :first_name, t('shoppe.orders.first_name') %>
+      </dt>
+      <dd>
+        <%= f.text_field :first_name, :class => 'focus text' %>
+      </dd>
+    </dl>
+    <dl class="third">
+      <dt>
+        <%= f.label :last_name, t('shoppe.orders.last_name') %>
+      </dt>
+      <dd>
+        <%= f.text_field :last_name, :class => 'text' %>
+      </dd>
+    </dl>
+    <dl class="third">
+      <dt>
+        <%= f.label :company, t('shoppe.orders.company') %>
+      </dt>
+      <dd>
+        <%= f.text_field :company, :class => 'text' %>
+      </dd>
+    </dl>
+  </div>
+  <dl>
+    <dt>
+      <%= f.label :billing_address1, t('shoppe.orders.address') %>
+    </dt>
+    <dd class="space">
+      <%= f.text_field :billing_address1, :class => 'text' %>
+    </dd>
+    <dd class="space">
+      <%= f.text_field :billing_address2, :class => 'text' %>
+    </dd>
+    <dd class="space">
+      <%= f.text_field :billing_address3, :class => 'text' %>
+    </dd>
+    <dd class="space">
+      <%= f.text_field :billing_address4, :class => 'text' %>
+    </dd>
+  </dl>
+  <div class="splitContainer">
+    <dl class="half">
+      <dt>
+        <%= f.label :billing_postcode, t('shoppe.orders.post_code') %>
+      </dt>
+      <dd>
+        <%= f.text_field :billing_postcode, :class => 'text' %>
+      </dd>
+    </dl>
+    <dl class="half">
+      <dt>
+        <%= f.label :billing_country_id, t('shoppe.orders.country') %>
+      </dt>
+      <dd>
+        <%= f.collection_select :billing_country_id, Shoppe::Country.ordered, :id, :name, {:include_blank => true}, {:data => {:placeholder => t('shoppe.orders.select_country')}} %>
+      </dd>
+    </dl>
+  </div>
+  <div class="splitContainer">
+    <dl class="third">
+      <dt>
+        <%= f.label :email_address, t('shoppe.orders.email_address') %>
+      </dt>
+      <dd>
+        <%= f.text_field :email_address, :class => 'text' %>
+      </dd>
+    </dl>
+    <dl class="third">
+      <dt>
+        <%= f.label :phone_number, t('shoppe.orders.phone_number') %>
+      </dt>
+      <dd>
+        <%= f.text_field :phone_number, :class => 'text' %>
+      </dd>
+    </dl>
+    <dl class="third">
+      <dt>
+        <%= f.label :separate_delivery_address, t('shoppe.orders.separate_delivery_address') %>
+      </dt>
+      <dd class="checkbox">
+        <%= f.check_box :separate_delivery_address %>
+        <%= f.label :separate_delivery_address, t('shoppe.orders.use_separate_delivery_address?') %>
+      </dd>
+    </dl>
+  </div>
+<% end %>
+<%= field_set_tag t('shoppe.orders.delivery_address'), :class => 'delivery' do %>
+  <dl>
+    <dt>
+      <%= f.label :delivery_name, t('shoppe.orders.delivery_name') %>
+    </dt>
+    <dd>
+      <%= f.text_field :delivery_name, :class => 'text' %>
+    </dd>
+  </dl>
+  <dl>
+    <dt>
+      <%= f.label :delivery_address1, t('shoppe.orders.address') %>
+    </dt>
+    <dd class="space">
+      <%= f.text_field :delivery_address1, :class => 'text' %>
+    </dd>
+    <dd class="space">
+      <%= f.text_field :delivery_address2, :class => 'text' %>
+    </dd>
+    <dd class="space">
+      <%= f.text_field :delivery_address3, :class => 'text' %>
+    </dd>
+    <dd class="space">
+      <%= f.text_field :delivery_address4, :class => 'text' %>
+    </dd>
+  </dl>
+  <div class="splitContainer">
+    <dl class="half">
+      <dt>
+        <%= f.label :delivery_postcode, t('shoppe.orders.post_code') %>
+      </dt>
+      <dd>
+        <%= f.text_field :delivery_postcode, :class => 'text' %>
+      </dd>
+    </dl>
+    <dl class="half">
+      <dt>
+        <%= f.label :delivery_country_id, t('shoppe.orders.country') %>
+      </dt>
+      <dd>
+        <%= f.collection_select :delivery_country_id, Shoppe::Country.ordered, :id, :name, {:include_blank => true}, {:data => {:placeholder => t('shoppe.orders.select_country')}} %>
+      </dd>
+    </dl>
+  </div>
+<% end %>

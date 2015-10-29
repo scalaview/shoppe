@@ -1,0 +1,11 @@
+<% @page_title = t('shoppe.product_category.product_categories') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.localisations.localisations') , [@product_category, :localisations], :class => 'button' %>
+    <%= link_to t('shoppe.product_category.back_to_categories'), :product_categories, :class => 'button' %>
+  </p>
+  <h2 class="products">
+    <%= t('shoppe.product_category.product_categories') %>
+  </h2>
+<% end %>
+<%= render 'form' %>

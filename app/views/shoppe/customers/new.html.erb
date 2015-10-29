@@ -1,0 +1,8 @@
+<% @page_title = t('shoppe.customers.customers') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.customers.back_to_customers_list'), :customers, :class => 'button' %>
+  </p>
+  <h2 class="users">Customers</h2>
+<% end %>
+<%= render "form" %>

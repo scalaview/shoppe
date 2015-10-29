@@ -1,0 +1,63 @@
+<% @page_title = "#{t('shoppe.variants.variants')} - #{@product.name}" %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.variants.edit_product'), [:edit, @product], :class => 'button' %>
+    <%= link_to t('shoppe.variants.new_variant'), [:new, @product, :variant], :class => 'button green' %>
+  </p>
+  <h2 class="products">
+    <%= t('shoppe.variants.variants_of', product: @product.name) %>
+  </h2>
+<% end %>
+<div class="table">
+  <table class="data">
+    <thead>
+      <tr>
+        <th width="20%">
+          <%= t('shoppe.variants.sku') %>
+        </th>
+        <th width="50%">
+          <%= t('shoppe.variants.name') %>
+        </th>
+        <th width="15%">
+          <%= t('shoppe.variants.price') %>
+        </th>
+        <th width="15%">
+          <%= t('shoppe.variants.stock') %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @variants.empty? %>
+        <tr class="empty">
+          <td colspan="4">
+            <%= t('shoppe.variants.no_products') %>
+          </td>
+        </tr>
+      <% else %>
+        <% for variant in @variants %>
+          <tr>
+            <td>
+              <%= variant.sku %>
+            </td>
+            <td>
+              <%= link_to variant.name, edit_product_variant_path(@product, variant) %>
+            </td>
+            <td>
+              <%= number_to_currency variant.price %>
+            </td>
+            <td>
+              <% if variant.stock_control? %>
+                <span class="float-right">
+                  <%= link_to t('shoppe.edit'), stock_level_adjustments_path(:item_type => variant.class, :item_id => variant.id), :class => 'edit', :rel => 'dialog', :data => {:dialog_width => 700, :dialog_behavior => 'stockLevelAdjustments'} %>
+                </span>
+                <%= boolean_tag(variant.in_stock?, nil, :true_text => variant.stock, :false_text => t('shoppe.variants.no_stock')) %>
+              <% else %>
+                &#8734;
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

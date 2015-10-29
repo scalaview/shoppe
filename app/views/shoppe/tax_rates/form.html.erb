@@ -1,0 +1,53 @@
+<% @page_title = t('shoppe.tax_rates.tax_rates') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.tax_rates.back_to_tax_rates'), :tax_rates, :class => 'button grey' %>
+  </p>
+  <h2 class="tax_rates">
+    <%= t('shoppe.tax_rates.tax_rates') %>
+  </h2>
+<% end %>
+<%= form_for @tax_rate do |f| %>
+  <%= f.error_messages %>
+  <%= field_set_tag t('shoppe.tax_rates.rate_details') do %>
+    <div class="splitContainer">
+      <dl class="half">
+        <dt>
+          <%= f.label :name, t('shoppe.tax_rates.name') %>
+        </dt>
+        <dd>
+          <%= f.text_field :name, :class => 'focus text' %>
+        </dd>
+      </dl>
+      <dl class="half">
+        <dt>
+          <%= f.label :rate, t('shoppe.tax_rates.rate') %>
+        </dt>
+        <dd>
+          <%= f.text_field :rate, :class => 'text' %>
+        </dd>
+      </dl>
+    </div>
+  <% end %>
+  <%= field_set_tag t('shoppe.tax_rates.country_restriction') do %>
+    <dl>
+      <dd>
+        <%= f.select :address_type, Shoppe::TaxRate::ADDRESS_TYPES.map { |a| [t('shoppe.tax_rates.address_type_option', address: t("shoppe.tax_rates.#{a}")).html_safe, a]}, {}, :class => 'chosen-basic' %>
+      </dd>
+    </dl>
+    <dl>
+      <dd>
+        <%= f.collection_select :country_ids, Shoppe::Country.ordered, :id, :name, {}, {:class => 'chosen', :multiple => true, :data => {:placeholder => t('shoppe.tax_rates.all_countries') }} %>
+      </dd>
+    </dl>
+  <% end %>
+  <p class="submit">
+    <% unless @tax_rate.new_record? %>
+      <span class="right">
+        <%= link_to t('shoppe.delete'), @tax_rate, :class => 'button purple', :method => :delete, :data => {:confirm => t('shoppe.tax_rates.delete_confirmation') } %>
+      </span>
+    <% end %>
+    <%= f.submit t('shoppe.submit'), :class => 'button green' %>
+    <%= link_to t('shoppe.cancel'), :tax_rates, :class => 'button' %>
+  </p>
+<% end %>

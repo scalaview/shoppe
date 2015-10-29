@@ -1,0 +1,35 @@
+<% @page_title = t('shoppe.users.users') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.users.new_user'), :new_user, :class => 'button green' %>
+  </p>
+  <h2 class="users">
+    <%= t('shoppe.users.users') %>
+  </h2>
+<% end %>
+<div class="table">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>
+          <%= t('shoppe.users.name') %>
+        </th>
+        <th>
+          <%= t('shoppe.users.email') %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for user in @users %>
+        <tr>
+          <td>
+            <%= link_to user.full_name, [:edit, user] %>
+          </td>
+          <td>
+            <%= user.email_address %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

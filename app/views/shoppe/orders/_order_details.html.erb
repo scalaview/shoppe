@@ -1,0 +1,138 @@
+<div class="details">
+  <div class="left">
+    <dl>
+      <dt>
+        <%= t('shoppe.orders.name') %>
+      </dt>
+      <dd>
+        <%= @order.full_name %>
+      </dd>
+      <dt>
+        <%= t('shoppe.orders.company') %>
+      </dt>
+      <dd>
+        <%= @order.company.blank? ? '-' : @order.company %>
+      </dd>
+      <dt>
+        <% if @order.separate_delivery_address? %>
+          <%= t('shoppe.orders.billing_address') %>
+        <% else %>
+          <%= t('shoppe.orders.billing_delivery_address') %>
+        <% end %>
+      </dt>
+      <dd>
+        <%= @order.billing_address1 %>
+      </dd>
+      <dd>
+        <%= @order.billing_address2 %>
+      </dd>
+      <dd>
+        <%= @order.billing_address3 %>
+      </dd>
+      <dd>
+        <%= @order.billing_address4 %>
+      </dd>
+      <dd>
+        <%= @order.billing_postcode %>
+      </dd>
+      <dd>
+        <%= @order.billing_country.try(:name) %>
+      </dd>
+      <% if @order.separate_delivery_address? %>
+        <dt>
+          <%= t('shoppe.orders.delivery_address') %>
+        </dt>
+        <dd>
+          <%= @order.delivery_name %>
+        </dd>
+        <dd>
+          <%= @order.delivery_address1 %>
+        </dd>
+        <dd>
+          <%= @order.delivery_address2 %>
+        </dd>
+        <dd>
+          <%= @order.delivery_address3 %>
+        </dd>
+        <dd>
+          <%= @order.delivery_address4 %>
+        </dd>
+        <dd>
+          <%= @order.delivery_postcode %>
+        </dd>
+        <dd>
+          <%= @order.delivery_country.try(:name) %>
+        </dd>
+      <% end %>
+    </dl>
+  </div>
+  <div class="right">
+    <dl>
+      <dt>
+        <%= t('shoppe.orders.email_address') %>
+      </dt>
+      <dd>
+        <%= mail_to @order.email_address %>
+      </dd>
+      <dt>
+        <%= t('shoppe.orders.telephone') %>
+      </dt>
+      <dd>
+        <%= @order.phone_number %>
+      </dd>
+      <dt>
+        <%= t('shoppe.orders.weight') %>
+      </dt>
+      <dd>
+        <%= number_to_weight @order.total_weight %>
+      </dd>
+      <% if @order.received? %>
+        <dt>
+          <%= t('shoppe.orders.build_time') %>
+        </dt>
+        <dd>
+          <%= distance_of_time_in_words(@order.created_at, @order.received_at) %>
+        </dd>
+      <% end %>
+      <% if @order.invoiced? %>
+        <dt>
+          <%= t('shoppe.orders.invoice_number') %>
+        </dt>
+        <dd>
+          <%= @order.invoice_number %>
+        </dd>
+      <% end %>
+      <dt>
+        <%= t('shoppe.orders.order_balance') %>
+      </dt>
+      <dd>
+        <%= boolean_tag @order.paid_in_full?, nil, :true_text => number_to_currency(@order.balance), :false_text => number_to_currency(@order.balance) %>
+      </dd>
+    </dl>
+    <% if @order.accepted? && !@order.shipped? %>
+      <%= form_tag [:ship, @order] do %>
+        <dl class="form">
+          <dt class="padding">
+            <%= label_tag 'consignment_number', t('shoppe.orders.consignment_number') %>
+          </dt>
+          <dd>
+            <%= text_field_tag 'consignment_number', '', :class => 'text' %>
+          </dd>
+        </dl>
+        <dl class="form">
+          <dd>
+            <%= submit_tag t('shoppe.orders.mark_as_shipped') , :class => 'button green button-mini' %>
+          </dd>
+        </dl>
+      <% end %>
+    <% end %>
+    <% unless @order.accepted? || @order.rejected? %>
+      <dl class="form">
+        <dd>
+          <%= link_to t('shoppe.orders.accept'), [:accept, @order], :method => :post, :class => 'button green' %>
+          <%= link_to t('shoppe.orders.reject'), [:reject, @order], :method => :post, :class => 'button purple' %>
+        </dd>
+      </dl>
+    <% end %>
+  </div>
+</div>

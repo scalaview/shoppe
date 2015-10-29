@@ -1,0 +1,97 @@
+<div class="order_items">
+  <div class="table">
+    <table class="data">
+      <thead>
+        <tr>
+          <th class="qty">
+            <%= t('shoppe.orders.qty') %>
+          </th>
+          <th>
+            <%= t('shoppe.orders.item') %>
+          </th>
+          <th>
+            <%= t('shoppe.orders.sku') %>
+          </th>
+          <th class="money">
+            <%= t('shoppe.orders.cost') %>
+          </th>
+          <th class="money">
+            <%= t('shoppe.orders.price') %>
+          </th>
+          <th class="money">
+            <%= Shoppe.settings.tax_name %>
+          </th>
+          <th class="money">
+            <%= t('shoppe.orders.sub_total') %>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for item in @order.order_items %>
+          <tr>
+            <td class="qty">
+              <%= item.quantity %>
+            </td>
+            <td class="product">
+              <%= item.ordered_item.full_name %>
+            </td>
+            <td class="sku">
+              <%= item.ordered_item.sku %>
+            </td>
+            <td class="money">
+              <%= number_to_currency item.total_cost %>
+            </td>
+            <td class="money">
+              <%= number_to_currency item.sub_total %>
+            </td>
+            <td class="money">
+              <%= number_to_currency item.tax_amount %>
+            </td>
+            <td class="money">
+              <%= number_to_currency item.total %>
+            </td>
+          </tr>
+        <% end %>
+        <% if @order.delivery_service %>
+          <td class="qty"></td>
+          <td class="product">
+            <%= link_to @order.delivery_service.name, [:edit, @order.delivery_service] %>
+          </td>
+          <td class="sku"></td>
+          <td class="money">
+            <%= number_to_currency @order.delivery_cost_price %>
+          </td>
+          <td class="money">
+            <%= number_to_currency @order.delivery_price %>
+          </td>
+          <td class="money">
+            <%= number_to_currency @order.delivery_tax_amount %>
+          </td>
+          <td class="money">
+            <%= number_to_currency @order.delivery_price + @order.delivery_tax_amount %>
+          </td>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="qty">
+            <%= @order.total_items %>
+          </td>
+          <td colspan="2"></td>
+          <td class="money">
+            <%= number_to_currency @order.total_cost %>
+          </td>
+          <td class="money">
+            <%= number_to_currency @order.total_before_tax %>
+          </td>
+          <td class="money">
+            <%= number_to_currency @order.tax %>
+          </td>
+          <td class="money">
+            <%= number_to_currency @order.total %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

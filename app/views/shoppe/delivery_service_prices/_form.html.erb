@@ -1,0 +1,88 @@
+<%= form_for [@delivery_service, @delivery_service_price] do |f| %>
+  <%= f.error_messages %>
+  <%= field_set_tag t('shoppe.delivery_service_prices.identification_weight')  do %>
+    <div class="splitContainer">
+      <dl class="third">
+        <dt>
+          <%= f.label :code, t('shoppe.delivery_service_prices.code') %>
+        </dt>
+        <dd>
+          <%= f.text_field :code, :class => 'focus text' %>
+        </dd>
+      </dl>
+      <dl class="third">
+        <dt>
+          <%= f.label :min_weight, t('shoppe.delivery_service_prices.min_weight') %>
+        </dt>
+        <dd>
+          <%= f.text_field :min_weight, :class => 'text' %>
+        </dd>
+      </dl>
+      <dl class="third">
+        <dt>
+          <%= f.label :max_weight, t('shoppe.delivery_service_prices.max_weight') %>
+        </dt>
+        <dd>
+          <%= f.text_field :max_weight, :class => 'text' %>
+        </dd>
+      </dl>
+    </div>
+  <% end %>
+  <%= field_set_tag t('shoppe.delivery_service_prices.pricing') do %>
+    <div class="splitContainer">
+      <dl class="third">
+        <dt>
+          <%= f.label :price, t('shoppe.delivery_service_prices.price') %>
+        </dt>
+        <dd>
+          <div class="moneyInput">
+            <div class="currency">
+              <%= Shoppe.settings.currency_unit.html_safe %>
+            </div>
+            <%= f.text_field :price, :class => 'text' %>
+          </div>
+        </dd>
+      </dl>
+      <dl class="third">
+        <dt>
+          <%= f.label :cost_price, t('shoppe.delivery_service_prices.cost_price') %>
+        </dt>
+        <dd>
+          <div class="moneyInput">
+            <div class="currency">
+              <%= Shoppe.settings.currency_unit.html_safe %>
+            </div>
+            <%= f.text_field :cost_price, :class => 'text' %>
+          </div>
+        </dd>
+      </dl>
+      <dl class="third">
+        <dt>
+          <%= f.label :tax_rate_id, t('shoppe.delivery_service_prices.tax_rate') %>
+        </dt>
+        <dd>
+          <%= f.collection_select :tax_rate_id, Shoppe::TaxRate.ordered, :id, :description, {:include_blank => true}, {:class => 'chosen-with-deselect', :data => {:placeholder => t('shoppe.delivery_service_prices.no_tax')}} %>
+        </dd>
+      </dl>
+    </div>
+  <% end %>
+  <%= field_set_tag t('shoppe.delivery_service_prices.countries') do %>
+    <dl>
+      <dd>
+        <%= f.collection_select :country_ids, Shoppe::Country.ordered, :id, :name, {}, {:class => 'chosen', :multiple => true, :data => {:placeholder => t('shoppe.delivery_service_prices.all_countries')}} %>
+        <p class="help">
+          <%= t('shoppe.delivery_service_prices.help.countries') %>
+        </p>
+      </dd>
+    </dl>
+  <% end %>
+  <p class="submit">
+    <% unless @delivery_service_price.new_record? %>
+      <span class="right">
+        <%= link_to t('shoppe.delete'), [@delivery_service, @delivery_service_price], :class => 'button purple', :method => :delete, :data => {:confirm => "Are you sure you wish to remove this price?"} %>
+      </span>
+    <% end %>
+    <%= f.submit t('shoppe.submit'), :class => 'button green' %>
+    <%= link_to t('shoppe.cancel'), [@delivery_service, :delivery_service_prices], :class => 'button' %>
+  </p>
+<% end %>

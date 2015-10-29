@@ -1,0 +1,61 @@
+<% @page_title = t('shoppe.delivery_services.delivery_services') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.delivery_services.new'), :new_delivery_service, :class => 'button green' %>
+  </p>
+  <h2 class="delivery_services">
+    <%= t('shoppe.delivery_services.delivery_services') %>
+  </h2>
+<% end %>
+<div class="table">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>
+          <%= t('shoppe.delivery_services.name') %>
+        </th>
+        <th>
+          <%= t('shoppe.delivery_services.prices') %>
+        </th>
+        <th>
+          <%= t('shoppe.delivery_services.courier') %>
+        </th>
+        <th>
+          <%= t('shoppe.delivery_services.active?') %>
+        </th>
+        <th>
+          <%= t('shoppe.delivery_services.default?') %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @delivery_services.empty? %>
+        <tr class="empty">
+          <td colspan="5">
+            <%= t('shoppe.delivery_services.no_services') %>
+          </td>
+        </tr>
+      <% else %>
+        <% for delivery_service in @delivery_services %>
+          <tr>
+            <td>
+              <%= link_to delivery_service.name, [:edit, delivery_service] %>
+            </td>
+            <td>
+              <%= link_to t('shoppe.delivery_services.set_prices'), [delivery_service, :delivery_service_prices] %>
+            </td>
+            <td>
+              <%= delivery_service.courier %>
+            </td>
+            <td>
+              <%= boolean_tag delivery_service.active? %>
+            </td>
+            <td>
+              <%= boolean_tag delivery_service.default? %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

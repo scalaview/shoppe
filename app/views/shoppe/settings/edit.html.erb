@@ -1,0 +1,30 @@
+<% @page_title = t("shoppe.settings.settings") %>
+<%= content_for :header do %>
+  <h2 class="settings">
+    <%= t("shoppe.settings.settings") %>
+  </h2>
+<% end %>
+<%= form_tag :url => settings_path do |f| %>
+  <% Shoppe.settings_groups.each do |group, fields| %>
+    <%= field_set_tag t("shoppe.settings.#{group}") do %>
+      <% fields.each do |f| %>
+        <dl class="sided">
+          <dt>
+            <%= settings_label f %>
+          </dt>
+          <dd>
+            <%= settings_field f %>
+            <% if v = t("shoppe.settings.help")[f] %>
+              <p class="help">
+                <%= v %>
+              </p>
+            <% end %>
+          </dd>
+        </dl>
+      <% end %>
+    <% end %>
+  <% end %>
+  <p class="submit sided">
+    <%= submit_tag t("shoppe.settings.save_settings"), :class => 'button green' %>
+  </p>
+<% end %>

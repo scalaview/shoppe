@@ -1,0 +1,74 @@
+<%= form_for @address, url: [@customer, @address] do |f| %>
+  <%= f.error_messages %>
+  <%= field_set_tag "Address Information" do %>
+    <dl>
+      <dt>
+        <%= f.label :address_type %>
+      </dt>
+      <dd>
+        <%= f.select :address_type, Shoppe::Address::TYPES, {}, :class => "chosen" %>
+      </dd>
+    </dl>
+    <div class="splitContainer">
+      <dl class="third">
+        <dt>
+          <%= f.label :address1 %>
+        </dt>
+        <dd>
+          <%= f.text_field :address1, :class => "text" %>
+        </dd>
+      </dl>
+      <dl class="third">
+        <dt>
+          <%= f.label :address2 %>
+        </dt>
+        <dd>
+          <%= f.text_field :address2, :class => "text" %>
+        </dd>
+      </dl>
+      <dl class="third">
+        <dt>
+          <%= f.label :address3 %>
+        </dt>
+        <dd>
+          <%= f.text_field :address3, :class => "text" %>
+        </dd>
+      </dl>
+    </div>
+    <div class="splitContainer">
+      <dl class="third">
+        <dt>
+          <%= f.label :address4 %>
+        </dt>
+        <dd>
+          <%= f.text_field :address4, :class => "text" %>
+        </dd>
+      </dl>
+      <dl class="third">
+        <dt>
+          <%= f.label :postcode %>
+        </dt>
+        <dd>
+          <%= f.text_field :postcode, :class => "text" %>
+        </dd>
+      </dl>
+      <dl class="third">
+        <dt>
+          <%= f.label :country_id %>
+        </dt>
+        <dd>
+          <%= f.collection_select :country_id, Shoppe::Country.ordered, :id, :name, {:include_blank => true}, {:class => 'chosen', :data => { :placeholder => t('shoppe.orders.select_country')}}  %>
+        </dd>
+      </dl>
+    </div>
+  <% end %>
+  <p class="submit">
+    <% unless @address.new_record? %>
+      <span class="right">
+        <%= link_to t('shoppe.delete'), [@customer, @address], :class => 'button purple', :method => :delete, :data => {:confirm => "Are you sure you wish to remove this address?"} %>
+      </span>
+    <% end %>
+    <%= f.submit :class => 'button green', data: {disable_with: (@address.new_record? ? "Creating Address..." : "Updating Address...")} %>
+    <%= link_to t('shoppe.cancel'), :customers, :class => 'button' %>
+  </p>
+<% end %>

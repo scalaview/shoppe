@@ -1,0 +1,64 @@
+<% @page_title = t('shoppe.customers.customers') %>
+<%= content_for :header do %>
+  <p class="buttons">
+    <%= link_to t('shoppe.customers.new_customer'), :new_customer, class: "button green" %>
+    <%= link_to t('shoppe.customers.search_customer'), '#', class: 'button', rel: "searchCustomers" %>
+  </p>
+  <h2 class="users">
+    <%= t('shoppe.customers.customers') %>
+  </h2>
+<% end %>
+<%= render "search_form" %>
+<div class="table">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>
+          <%= t('shoppe.customers.name') %>
+        </th>
+        <th>
+          <%= t('shoppe.customers.company') %>
+        </th>
+        <th>
+          <%= t('shoppe.customers.email') %>
+        </th>
+        <th>
+          <%= t('shoppe.customers.phone') %>
+        </th>
+        <th>
+          <%= t('shoppe.customers.mobile_phone') %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @customers.empty? %>
+        <tr class="empty">
+          <td colspan="5">
+            <%= t('shoppe.customers.no_customers') %>
+          </td>
+        </tr>
+      <% else %>
+        <% for customer in @customers %>
+          <tr>
+            <td>
+              <%= link_to customer.full_name, customer %>
+            </td>
+            <td>
+              <%= link_to customer.company, customer %>
+            </td>
+            <td>
+              <%= customer.email %>
+            </td>
+            <td>
+              <%= customer.phone %>
+            </td>
+            <td>
+              <%= customer.mobile %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= paginate @customers %>
