@@ -3,6 +3,8 @@ module Shoppe
 
     self.table_name = "shoppe_customers"
 
+    has_secure_password
+
     has_many :addresses, :dependent => :restrict_with_exception, :class_name => "Shoppe::Address"
 
     has_many :orders, :dependent => :restrict_with_exception, :class_name => "Shoppe::Order"
@@ -29,12 +31,19 @@ module Shoppe
       "#{first_name} #{last_name}"
     end
 
-    def self.ransackable_attributes(auth_object = nil) 
+    def self.ransackable_attributes(auth_object = nil)
       ["id", "first_name", "last_name", "company", "email", "phone", "mobile"] + _ransackers.keys
     end
-  
+
     def self.ransackable_associations(auth_object = nil)
       []
+    end
+
+    def self.authenticate(email, password)
+      customer = self.where(:email => email).first
+      return false if customer.nil?
+      return false unless customer.authenticate(password)
+      customer
     end
 
   end
