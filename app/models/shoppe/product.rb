@@ -36,6 +36,9 @@ module Shoppe
     # Stock level adjustments for this product
     has_many :stock_level_adjustments, :dependent => :destroy, :class_name => 'Shoppe::StockLevelAdjustment', :as => :item
 
+    # add to cart to use this for store
+    has_many :basket_items, :dependent => :destroy, :class_name => 'Shoppe::BasketItem', :as => :basket_items
+
     # Validations
     with_options :if => Proc.new { |p| p.parent.nil? } do |product|
       product.validate :has_at_least_one_product_category
