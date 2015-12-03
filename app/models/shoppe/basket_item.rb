@@ -7,20 +7,6 @@ module Shoppe
 
     has_many :stock_level_adjustments, :as => :parent, :dependent => :nullify, :class_name => 'Shoppe::StockLevelAdjustment'
 
-    def self.add_item(ordered_item, quantity = 1)
-      raise Errors::UnorderableItem, :ordered_item => ordered_item unless ordered_item.orderable?
-      transaction do
-        if existing = self.where(:product => ordered_item.id).first
-          existing.increase(quantity)
-          existing
-        else
-          new_item = self.create(:product => ordered_item, :quantity => 0)
-          new_item.increase(quantity)
-          new_item
-        end
-      end
-    end
-
     def increase(amount = 1)
       begin
         increase!(amount)
@@ -42,6 +28,26 @@ module Shoppe
       end
     end
 
+    def decrease!(amount = 1)
+      transaction do
+        self.quantity -= amount
+        self.quantity == 0 ? self.destroy : self.save!
+      end
+    end
+
+    def update_quantity(quantity = 1)
+      update_quantity!(quantity)
+    rescue
+      false
+    end
+
+    def update_quantity!(quantity = 1)
+      transaction do
+        self.quantity = quantity
+        self.quantity == 0 ? self.destroy : self.save!
+      end
+    end
+
     def in_stock?
       if self.product && self.product.stock_control?
         self.product.stock >= unallocated_stock
@@ -56,6 +62,24 @@ module Shoppe
 
     def allocated_stock
       0 - self.stock_level_adjustments.sum(:adjustment)
+    end
+
+    class << self
+
+      def add_item(ordered_item, quantity = 1)
+        raise Errors::UnorderableItem, :ordered_item => ordered_item unless ordered_item.orderable?
+        transaction do
+          if existing = self.where(:product => ordered_item.id).first
+            existing.increase(quantity)
+            existing
+          else
+            new_item = self.create(:product => ordered_item, :quantity => 0)
+            new_item.increase(quantity)
+            new_item
+          end
+        end
+      end
+
     end
 
   end
