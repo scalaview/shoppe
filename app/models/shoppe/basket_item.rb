@@ -8,13 +8,11 @@ module Shoppe
     has_many :stock_level_adjustments, :as => :parent, :dependent => :nullify, :class_name => 'Shoppe::StockLevelAdjustment'
 
     def increase(amount = 1)
-      begin
-        increase!(amount)
-      rescue Exception => e
-        logger.error e.message
-        self.errors.add(:quantity, e.message)
-        false
-      end
+      increase!(amount)
+    rescue Exception => e
+      logger.error e.message
+      self.errors.add(:quantity, e.message)
+      false
     end
 
     def increase!(amount = 1)
@@ -26,6 +24,12 @@ module Shoppe
         end
         self.save!
       end
+    end
+
+    def decrease(amount = 1)
+      decrease!(amount)
+    rescue
+      false
     end
 
     def decrease!(amount = 1)
