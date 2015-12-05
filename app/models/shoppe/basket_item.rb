@@ -41,13 +41,19 @@ module Shoppe
 
     def update_quantity(quantity = 1)
       update_quantity!(quantity)
-    rescue
+    rescue Exception => e
+      logger.error e.message
+      self.errors.add(:quantity, e.message)
       false
     end
 
     def update_quantity!(quantity = 1)
       transaction do
         self.quantity = quantity
+        unless self.in_stock?
+          raise Shoppe::Errors::NotEnoughStock, :ordered_item => self.product, :requested_stock => self.quantity,
+            :message => "only #{self.product.stock} in stock, requested : #{self.quantity}, not enough"
+        end
         self.quantity == 0 ? self.destroy : self.save!
       end
     end
