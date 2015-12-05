@@ -23,15 +23,17 @@ module Shoppe
     belongs_to :customer, :class_name => 'Shoppe::Customer'
     has_many :addresses, :through => :customers, :class_name => "Shoppe::Address"
 
+    belongs_to :billing_address, :class_name => 'Shoppe::OrderAddress'
+    belongs_to :delivery_address, :class_name => 'Shoppe::OrderAddress'
+
     # Validations
-    validates :token, :presence => true
-    with_options :if => Proc.new { |o| !o.building? } do |order|
+    with_options :if => Proc.new { |o| !o.init? } do |order|
       order.validates :email_address, :format => {:with => /\A\b[A-Z0-9\.\_\%\-\+]+@(?:[A-Z0-9\-]+\.)+[A-Z]{2,6}\b\z/i}
       order.validates :phone_number, :format => {:with => /\A[+?\d\ \-x\(\)]{7,}\z/}
     end
 
     # Set some defaults
-    before_validation { self.token = SecureRandom.uuid  if self.token.blank? }
+    # before_validation { self.token = SecureRandom.uuid  if self.token.blank? }
 
     # Some methods for setting the billing & delivery addresses
     attr_accessor :save_addresses, :billing_address_id, :delivery_address_id
@@ -70,7 +72,7 @@ module Shoppe
     # Is this order empty? (i.e. doesn't have any items associated with it)
     #
     # @return [Boolean]
-    def empty?
+    def items_empty?
       order_items.empty?
     end
 
@@ -86,6 +88,23 @@ module Shoppe
     # @return [Integer]
     def total_items
       order_items.inject(0) { |t,i| t + i.quantity }
+    end
+
+    def init_order_items(basket_items)
+      order_items.destroy_all if !items_empty?
+      transaction do
+        begin
+          basket_items.each do |basket_item|
+            order_items.add_items(basket_item.product, basket_item.quantity)
+          end
+          basket_items.each{|i| i.destroy! }
+          true
+        rescue Exception => e
+          logger.error e.message
+          raise ActiveRecord::Rollback
+          false
+        end
+      end
     end
 
     def self.ransackable_attributes(auth_object = nil)

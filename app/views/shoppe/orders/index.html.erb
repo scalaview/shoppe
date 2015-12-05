@@ -37,7 +37,7 @@
       </tr>
     </thead>
     <tbody>
-      <% if @orders.empty? %>
+      <% if @orders.items_empty? %>
         <tr class="empty">
           <td colspan="6">
             <%= t('shoppe.orders.no_orders') %>

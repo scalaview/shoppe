@@ -10,7 +10,7 @@ module Shoppe
     has_many :payments, :dependent => :destroy, :class_name => 'Shoppe::Payment'
 
     # Validations
-    with_options :if => Proc.new { |o| !o.building? } do |order|
+    with_options :if => Proc.new { |o| !o.init? } do |order|
       order.validates :first_name, :presence => true
       order.validates :last_name, :presence => true
       order.validates :billing_address1, :presence => true

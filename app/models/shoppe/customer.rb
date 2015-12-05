@@ -33,6 +33,20 @@ module Shoppe
       "#{first_name} #{last_name}"
     end
 
+    def current_order
+      @current_order ||= begin
+        if has_order?
+          @current_order
+        else
+          self.orders.create
+        end
+      end
+    end
+
+    def has_order?
+      (@current_order = self.orders.continue).present?
+    end
+
     def self.ransackable_attributes(auth_object = nil)
       ["id", "first_name", "last_name", "company", "email", "phone", "mobile"] + _ransackers.keys
     end

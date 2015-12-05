@@ -7,6 +7,8 @@ module Shoppe
     # Set the table name
     self.table_name = "shoppe_addresses"
 
+    require_dependency 'shoppe/address/md5'
+
     # The customer which this address should be linked to
     #
     # @return [Shoppe::Customer]
@@ -21,6 +23,8 @@ module Shoppe
     #
     # @return [Shoppe::Country]
     belongs_to :country, :class_name => "Shoppe::Country"
+
+    has_many   :order_addresses, :class_name => "Shoppe::OrderAddress"
 
     # Validations
     validates :address_type, :presence => true, :inclusion => {:in => TYPES}
@@ -40,6 +44,10 @@ module Shoppe
 
     def full_address
       [address1, address2, address3, address4, postcode, country.try(:name)].join(", ")
+    end
+
+    def generate_order_address(order)
+      self.order_addresses.create(md5Able_attributes)
     end
 
   end
