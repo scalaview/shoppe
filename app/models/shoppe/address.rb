@@ -6,14 +6,14 @@ module Shoppe
 
     # Set the table name
     self.table_name = "shoppe_addresses"
-    
+
     # The customer which this address should be linked to
-    # 
+    #
     # @return [Shoppe::Customer]
     belongs_to :customer, :class_name => "Shoppe::Customer"
-    
+
     # The order which this address should be linked to
-    # 
+    #
     # @return [Shoppe::Order]
     belongs_to :order, :class_name => "Shoppe::Order"
 
@@ -24,14 +24,16 @@ module Shoppe
 
     # Validations
     validates :address_type, :presence => true, :inclusion => {:in => TYPES}
-    validates :address1, :presence => true
-    validates :address3, :presence => true
-    validates :address4, :presence => true
+    validates :province, :presence => true
+    validates :city, :presence => true
+    validates :area, :presence => true
+    validates :street, :presence => true
     validates :postcode, :presence => true
     validates :country, :presence => true
 
     # All addresses ordered by their id asending
     scope :ordered, -> { order(:id => :desc)}
+    scope :default_first, -> { order(:default => :desc).ordered}
     scope :default, -> { where(default: true)}
     scope :billing, -> { where(address_type: "billing")}
     scope :delivery, -> { where(address_type: "delivery")}
