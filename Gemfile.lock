@@ -50,6 +50,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     arel (5.0.1.20140414130214)
     awesome_nested_set (3.0.2)
       activerecord (>= 4.0.0, < 5)
@@ -303,6 +306,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate (~> 2.6.5)
   awesome_nested_set (~> 3.0)
   coffee-rails (~> 4)
   factory_girl_rails (~> 4.5)
