@@ -9,6 +9,8 @@ module Shoppe
 
     def md5Able_attributes
       {
+        :phone => self.phone,
+        :receiver_name => self.receiver_name,
         :province => self.province,
         :city => self.city,
         :area => self.area,

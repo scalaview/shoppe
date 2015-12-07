@@ -31,9 +31,10 @@ module Shoppe
     # Order.with_state(:parked)                         # also plural #with_states
     # Order.without_states(:first_gear, :second_gear)   # also singular #without_state
 
+    after_initialize  { self.status = self.class.get_status(:init) if self.status.blank? }
     # status
 
-    state_machine :status, :initial => :init do
+    state_machine :status do
 
         state :init,                :value => 0
         state :build,               :value => 1
@@ -94,7 +95,7 @@ module Shoppe
     end
 
     def self.get_status(state)
-      Shoppe::Order.state_machines[:status].states[state.to_sym].value
+      Order.state_machines[:status].states[state.to_sym].value
     end
 
   end

@@ -1,7 +1,6 @@
 class CreateShoppeOrderAddresses < ActiveRecord::Migration
   def change
     create_table :shoppe_order_addresses do |t|
-      t.belongs_to :customer, index: true
       t.string :address_type
       t.string :province
       t.string :city

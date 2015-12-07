@@ -27,7 +27,7 @@ module Shoppe
     belongs_to :delivery_address, :class_name => 'Shoppe::OrderAddress'
 
     # Validations
-    with_options :if => Proc.new { |o| !o.init? } do |order|
+    with_options :if => Proc.new { |o| !(o.init? || o.build?) } do |order|
       order.validates :email_address, :format => {:with => /\A\b[A-Z0-9\.\_\%\-\+]+@(?:[A-Z0-9\-]+\.)+[A-Z]{2,6}\b\z/i}
       order.validates :phone_number, :format => {:with => /\A[+?\d\ \-x\(\)]{7,}\z/}
     end
