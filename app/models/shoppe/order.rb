@@ -98,7 +98,7 @@ module Shoppe
       transaction do
         begin
           basket_items.each do |basket_item|
-            order_items.add_items(basket_item.product, basket_item.quantity)
+            order_items.add_item(basket_item.product, basket_item.quantity)
           end
           basket_items.each{|i| i.destroy! }
           true

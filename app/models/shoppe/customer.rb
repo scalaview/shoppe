@@ -44,7 +44,7 @@ module Shoppe
     end
 
     def has_order?
-      (@current_order = self.orders.continue).present?
+      (@current_order = self.orders.continue.last).present?
     end
 
     def self.ransackable_attributes(auth_object = nil)

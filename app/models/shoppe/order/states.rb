@@ -25,7 +25,7 @@ module Shoppe
     # All ordered ordered by their ID desending
     scope :ordered, -> { order(:id => :desc)}
     # get the order had been comfirm
-    scope :continue, -> { where('status in (?)', [STATUS_MAP[:init], STATUS_MAP[:build]]).last }
+    scope :continue, -> { where('status in (?)', [ STATUS_MAP[:init], STATUS_MAP[:build] ]) }
 
     # Order.with_state(:parked)                         # also plural #with_states
     # Order.without_states(:first_gear, :second_gear)   # also singular #without_state
