@@ -1,21 +1,27 @@
 module Shoppe
   class DeliveryService < ActiveRecord::Base
-  
+
     self.table_name = 'shoppe_delivery_services'
 
     # Validations
     validates :name, :presence => true
     validates :courier, :presence => true
-  
+
     # Orders which are assigned to this delivery service
     has_many :orders, :dependent => :restrict_with_exception, :class_name => 'Shoppe::Order'
-    
+
     # Prices for the different levels of service within this delivery service
     has_many :delivery_service_prices, :dependent => :destroy, :class_name => 'Shoppe::DeliveryServicePrice'
-  
+
     # All active delivery services
     scope :active, -> { where(:active => true)}
-    
+
+    attr_accessor :price
+
+    def price
+      self.try(:price) || BigDecimal(0)
+    end
+
     # Returns a tracking URL for the passed order
     #
     # @param order [Shoppe::Order]
