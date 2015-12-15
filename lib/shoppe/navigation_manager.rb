@@ -60,8 +60,7 @@ module Shoppe
 
       def url(request = nil)
         (@url.is_a?(Proc) && request && request.instance_eval(&@url) ) ||
-        @url ||
-        ModuleShoppe::Engine.routes.url_helpers.send("#{identifier}_path")
+        @url || Engine.routes.url_helpers.send("#{identifier}_path")
       end
 
       def active?(request)

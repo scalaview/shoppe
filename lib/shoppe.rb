@@ -27,7 +27,7 @@ module Shoppe
     #
     # @return [Shoppe::Settings]
     def settings
-      Thread.current[:shoppe_settings] ||= Shoppe::Settings.new(Shoppe::Setting.to_hash)
+      Thread.current[:shoppe_settings] ||= ModuleShoppe::Settings.new(ModuleShoppe::Setting.to_hash)
     end
 
     # Clears the settings from the thread cache so they will be taken
