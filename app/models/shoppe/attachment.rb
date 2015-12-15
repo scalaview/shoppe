@@ -20,6 +20,7 @@ module Shoppe
     # All attachments should have a token assigned to this
     before_validation { self.token = SecureRandom.uuid if self.token.blank? }
 
+    #scope
     scope :pictures, -> { where('role in (?)', Product::ROLE_MAP.values).order(created_at: :ASC) }
 
     # Set the appropriate values in the model

@@ -54,6 +54,8 @@ module Shoppe
 
   end
 
+  ModuleShoppe = Shoppe
+
 end
 
 # Start your engines.
