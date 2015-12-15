@@ -51,7 +51,7 @@ module Shoppe
     # If an order has been received and something changes the delivery service or the delivery price
     # is cleared, we will re-cache all the delivery pricing so that we have the latest.
     before_save do
-      if received? && (delivery_service_id_changed? || (self.delivery_price_changed? && read_attribute(:delivery_price).blank?))
+      if manage.received? && (delivery_service_id_changed? || (self.delivery_price_changed? && read_attribute(:delivery_price).blank?))
         self.delivery_price = nil
         self.delivery_cost_price = nil
         self.delivery_tax_rate = nil
@@ -137,7 +137,7 @@ module Shoppe
     # @return [Array] an array of Shoppe:DeliveryServicePrice objects
     def delivery_service_prices
       if delivery_required?
-        prices = Shoppe::DeliveryServicePrice.joins(:delivery_service).where(:shoppe_delivery_services => {:active => true}).order(:price).for_weight(total_weight)
+        prices = DeliveryServicePrice.joins(:delivery_service).where(:shoppe_delivery_services => {:active => true}).order(:price).for_weight(total_weight)
         prices = prices.select { |p| p.countries.empty? || p.country?(self.delivery_country) }
         prices.sort{ |x,y| (y.delivery_service.default? ? 1 : 0) <=> (x.delivery_service.default? ? 1 : 0) } # Order by truthiness
       else

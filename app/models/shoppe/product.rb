@@ -6,6 +6,13 @@ module Shoppe
 
     self.table_name = 'shoppe_products'
 
+
+    ROLE_MAP = {
+      :default_image => 'default_image',
+      :data_sheet => 'data_sheet',
+      :extra => 'extra'
+    }
+
     # Add dependencies for products
     require_dependency 'shoppe/product/product_attributes'
     require_dependency 'shoppe/product/variants'
@@ -69,7 +76,7 @@ module Shoppe
       if attrs["default_image"]["file"].present? then self.attachments.build(attrs["default_image"]) end
       if attrs["data_sheet"]["file"].present? then self.attachments.build(attrs["data_sheet"]) end
 
-      if attrs["extra"]["file"].present? then attrs["extra"]["file"].each { |attr| self.attachments.build(file: attr, parent_id: attrs["extra"]["parent_id"], parent_type: attrs["extra"]["parent_type"]) } end
+      if attrs["extra"]["file"].present? then attrs["extra"]["file"].each { |attr| self.attachments.build(file: attr, parent_id: attrs["extra"]["parent_id"], parent_type: attrs["extra"]["parent_type"], role: attrs["extra"]["role"] ) } end
     end
 
     # Return the name of the product

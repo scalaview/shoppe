@@ -140,7 +140,7 @@
           <p>
             <%= f.file_field "attachments[default_image][file]" %>
           </p>
-          <%= f.hidden_field "attachments[default_image][role]", value: "default_image" %>
+          <%= f.hidden_field "attachments[default_image][role]", value: Shoppe::Product::ROLE_MAP[:default_image] %>
           <%= f.hidden_field "attachments[default_image][parent_id]", value: @product.id %>
         </dd>
       </dl>
@@ -153,7 +153,7 @@
           <p>
             <%= f.file_field "attachments[data_sheet][file]" %>
           </p>
-          <%= f.hidden_field "attachments[data_sheet][role]", value: "data_sheet" %>
+          <%= f.hidden_field "attachments[data_sheet][role]", value: Shoppe::Product::ROLE_MAP[:data_sheet] %>
           <%= f.hidden_field "attachments[data_sheet][parent_id]", value: @product.id %>
         </dd>
       </dl>
@@ -167,6 +167,7 @@
           </p>
           <%= f.hidden_field "attachments[extra][parent_type]", value: "Shoppe::Product" %>
           <%= f.hidden_field "attachments[extra][parent_id]", value: @product.id %>
+          <%= f.hidden_field "attachments[extra][role]", value: Shoppe::Product::ROLE_MAP[:extra]%>
         </dd>
       </dl>
       <% @product.attachments.each do |attachment| %>
