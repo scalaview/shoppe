@@ -184,65 +184,65 @@
       <%= link_to t('shoppe.products.add_attachments') , '#', :data => {:behavior => 'addAttachmentToExtraAttachments'}, :class => 'button button-mini green' %>
     </p>
   <% end %>
-  <% unless @product.has_variants? %>
+  <%= f.fields_for :stockkeeping_unit, @stockkeeping_unit do |sku| %>
     <%= field_set_tag t('shoppe.products.pricing') do %>
       <div class="splitContainer">
         <dl class="third">
           <dt>
-            <%= f.label :price, t('shoppe.products.price') %>
+            <%= sku.label :price, t('shoppe.products.price') %>
           </dt>
           <dd>
             <div class="moneyInput">
               <div class="currency">
                 <%= Shoppe.settings.currency_unit.html_safe %>
               </div>
-              <%= f.text_field :price, :class => 'text' %>
+              <%= sku.text_field :price, :class => 'text' %>
             </div>
           </dd>
         </dl>
         <dl class="third">
           <dt>
-            <%= f.label :cost_price, t('shoppe.products.cost_price') %>
+            <%= sku.label :cost_price, t('shoppe.products.cost_price') %>
           </dt>
           <dd>
             <div class="moneyInput">
               <div class="currency">
                 <%= Shoppe.settings.currency_unit.html_safe %>
               </div>
-              <%= f.text_field :cost_price, :class => 'text' %>
+              <%= sku.text_field :cost_price, :class => 'text' %>
             </div>
           </dd>
         </dl>
         <dl class="third">
           <dt>
-            <%= f.label :tax_rate_id, t('shoppe.products.tax_rate') %>
+            <%= sku.label :tax_rate_id, t('shoppe.products.tax_rate') %>
           </dt>
           <dd>
-            <%= f.collection_select :tax_rate_id, Shoppe::TaxRate.ordered, :id, :description, {:include_blank => true}, {:class => 'chosen-with-deselect', :data => {:placeholder => t('shoppe.products.no_tax')}} %>
+            <%= sku.collection_select :tax_rate_id, Shoppe::TaxRate.ordered, :id, :description, {:include_blank => true}, {:class => 'chosen-with-deselect', :data => {:placeholder => t('shoppe.products.no_tax')}} %>
           </dd>
         </dl>
       </div>
-    <% end %>
-    <%= field_set_tag  t('shoppe.products.stock_control') do %>
-      <div class="splitContainer">
-        <dl class="half">
-          <dt>
-            <%= f.label :weight, t('shoppe.products.weight') %>
-          </dt>
-          <dd>
-            <%= f.text_field :weight, :class => 'text' %>
-          </dd>
-        </dl>
-        <dl class="half">
-          <dt>
-            <%= f.label :stock_control,  t('shoppe.products.stock_control') %>
-          </dt>
-          <dd class="checkbox">
-            <%= f.check_box :stock_control %>
-            <%= f.label :stock_control, t('shoppe.products.enable_stock_control?') %>
-          </dd>
-        </dl>
-      </div>
+      <%= field_set_tag  t('shoppe.products.stock_control') do %>
+        <div class="splitContainer">
+          <dl class="half">
+            <dt>
+              <%= sku.label :weight, t('shoppe.products.weight') %>
+            </dt>
+            <dd>
+              <%= sku.text_field :weight, :class => 'text' %>
+            </dd>
+          </dl>
+          <dl class="half">
+            <dt>
+              <%= sku.label :stock_control,  t('shoppe.products.stock_control') %>
+            </dt>
+            <dd class="checkbox">
+              <%= sku.check_box :stock_control %>
+              <%= sku.label :stock_control, t('shoppe.products.enable_stock_control?') %>
+            </dd>
+          </dl>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
   <%= field_set_tag  t('shoppe.products.website_properties') do %>

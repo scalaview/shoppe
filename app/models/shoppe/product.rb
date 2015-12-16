@@ -79,6 +79,10 @@ module Shoppe
       if attrs["extra"]["file"].present? then attrs["extra"]["file"].each { |attr| self.attachments.build(file: attr, parent_id: attrs["extra"]["parent_id"], parent_type: attrs["extra"]["parent_type"], role: attrs["extra"]["role"] ) } end
     end
 
+    def sku=(attrs)
+
+    end
+
     # Return the name of the product
     #
     # @return [String]
