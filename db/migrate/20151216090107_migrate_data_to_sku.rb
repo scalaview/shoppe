@@ -27,7 +27,7 @@ class MigrateDataToSku < ActiveRecord::Migration
         is_done = false
         if product.stockkeeping_unit.blank?
           if product.variants.present?
-            is_done = product.update_attribute(default_stockkeeping_unit_id: product.variants.last.id)
+            is_done = product.update_attribute(:default_stockkeeping_unit_id, product.variants.last.id)
           else
             is_done = product.create_stockkeeping_unit({
                 :product_id => product.id,
