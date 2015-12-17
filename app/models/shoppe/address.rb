@@ -78,5 +78,10 @@ module Shoppe
       end
     end
 
+    def full_name(province, city, area)
+      @name_list = Shoppe::Region.where("code in (?)", [province, city, area]).pluck(:name)
+      @full_name = @name_list.join("")
+    end
+
   end
 end
