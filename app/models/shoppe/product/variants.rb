@@ -39,7 +39,7 @@ module Shoppe
 
     def variant_types
       VariantType.joins(:product_variant_values)
-                 .where("stockkeeping_unit_id_id in (?)", variants.pluck(:id))
+                 .where("stockkeeping_unit_id in (?)", variants.pluck(:id))
                  .order(:position).uniq
     end
 
