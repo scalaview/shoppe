@@ -1,13 +1,13 @@
 module Shoppe
   class Region < ActiveRecord::Base
 
-    def self.getProvice
+    def self.getProvince
       self.where(level: 1)
 
     end
 
-    def self.getCity(provice)
-      self.where(level: 2,parentcode: provice)
+    def self.getCity(province)
+      self.where(level: 2,parentcode: province)
 
     end
 
