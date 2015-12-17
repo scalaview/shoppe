@@ -12,7 +12,7 @@ module Shoppe
 
     belongs_to :stockkeeping_unit, :class_name =>  'Shoppe::StockkeepingUnit', :foreign_key => 'default_stockkeeping_unit_id'
 
-    # delegate *%w{sku, stock_control, weight, cost_price, price, tax_rate_id, tax_rate}, to: :stockkeeping_unit, allow_nil: true
+    delegate *%w{sku stock_control weight cost_price price tax_rate_id tax_rate}, to: :stockkeeping_unit, allow_nil: true
 
     # Does this product have any variants?
     #
@@ -35,6 +35,12 @@ module Shoppe
       else
         stockkeeping_unit.update_attributes attrs
       end
+    end
+
+    def variant_types
+      VariantType.joins(:product_variant_values)
+                 .where("stockkeeping_unit_id_id in (?)", variants.pluck(:id))
+                 .order(:position).uniq
     end
 
   end

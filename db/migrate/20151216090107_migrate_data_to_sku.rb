@@ -1,8 +1,8 @@
 class MigrateDataToSku < ActiveRecord::Migration
   def up
     transaction do
+      type = Shoppe::VariantType.create({name: 'color'})
       Shoppe::Product.where("parent_id is not null").each do |product|
-        type = Shoppe::VariantType.create({name: 'color'})
         value = type.variant_values.create({
             name: product.name
           })
