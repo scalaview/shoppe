@@ -3,7 +3,7 @@ module Shoppe
 
     belongs_to :stockkeeping_unit, :class_name => 'Shoppe::StockkeepingUnit'
 
-    belongs_to :variant_type, :class_name => 'Shoppe::VariantType'
+    belongs_to :variant_type, :class_name => 'Shoppe::VariantType', touch: true
 
     belongs_to :variant_value, :class_name => 'Shoppe::VariantValue'
 

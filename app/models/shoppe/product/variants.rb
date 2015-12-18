@@ -43,5 +43,14 @@ module Shoppe
                  .order(:position).uniq
     end
 
+    def variant_values(variant_type=nil)
+      Rails.cache.fetch("variant_values#{self.id}#{ variant_type.present? ? (variant_type.id.to_s + variant_type.updated_at.to_i.to_s) : '' }", expires_in: 2.weeks) do
+        scope = VariantValue.joins(:product_variant_values)
+                    .where("stockkeeping_unit_id in (?)", variants.pluck(:id))
+        scope = scope.where("shoppe_product_variant_values.variant_type_id = ? ", variant_type.id)  if variant_type.present?
+        scope.order(:position).uniq.to_a
+      end
+    end
+
   end
 end
