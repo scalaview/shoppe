@@ -30,14 +30,14 @@ module Shoppe
     has_many   :order_addresses, :class_name => "Shoppe::OrderAddress"
 
     # Validations
-    validates :address_type, :presence => true, :inclusion => {:in => TYPES.values}
+    #validates :address_type, :presence => true, :inclusion => {:in => TYPES.values}
     validates :receiver_name, :presence => true
     validates :phone, :presence => true
     validates :province, :presence => true
     validates :city, :presence => true
     validates :area, :presence => true
     validates :location, :presence => true
-    validates :street, :presence => true
+    #validates :street, :presence => true
     validates :postcode, :presence => true
     validates :country, :presence => true
 
