@@ -7,6 +7,10 @@ module Shoppe
     # Variants of the product
     has_many :variants, :class_name => 'Shoppe::StockkeepingUnit', :foreign_key => 'product_id', :dependent => :destroy
 
+    has_many :product_variant_types, :class_name => 'Shoppe::ProductVariantType'
+
+    has_many :variant_types, :class_name => 'Shoppe::VariantType', :through => :product_variant_types
+
     # The parent product (only applies to variants)
     belongs_to :parent, :class_name => 'Shoppe::Product', :foreign_key => 'parent_id'
 
@@ -35,12 +39,6 @@ module Shoppe
       else
         stockkeeping_unit.update_attributes attrs
       end
-    end
-
-    def variant_types
-      VariantType.joins(:product_variant_values)
-                 .where("stockkeeping_unit_id in (?)", variants.pluck(:id))
-                 .order(:position).uniq
     end
 
     def variant_values(variant_type=nil)

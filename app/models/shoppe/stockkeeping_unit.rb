@@ -28,7 +28,10 @@ module Shoppe
 
     def add_variant!(variant_value)
       transaction do
-        variant_value.variant_type
+        unless self.product.product_variant_types.where(:variant_type_id => variant_value.variant_type.id).present?
+          variant_value.variant_type
+          self.product.product_variant_types.create!({ :product_id => self.product.id, :variant_type_id => variant_value.variant_type.id })
+        end
         self.product_variant_values.build({
             :variant_type_id => variant_value.variant_type.id,
             :variant_value_id => variant_value.id,
