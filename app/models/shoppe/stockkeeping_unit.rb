@@ -9,7 +9,7 @@ module Shoppe
 
     has_many   :variant_types, :class_name => 'Shoppe::VariantType' , :through => :product_variant_values
 
-    has_one    :product,   :class_name => 'Shoppe::Product', :foreign_key => 'product_id'
+    has_one    :product,   :class_name => 'Shoppe::Product', :foreign_key => 'default_stockkeeping_unit_id'
 
     # Is this product a variant of another?
     #
@@ -28,9 +28,10 @@ module Shoppe
 
     def add_variant!(variant_value)
       transaction do
-        unless self.product.product_variant_types.where(:variant_type_id => variant_value.variant_type.id).present?
-          variant_value.variant_type
-          self.product.product_variant_types.create!({ :product_id => self.product.id, :variant_type_id => variant_value.variant_type.id })
+        unless self.parent.product_variant_types.where(:variant_type_id => variant_value.variant_type.id).present?
+          self.parent.product_variant_types
+              .build({ :product_id => self.product.id, :variant_type_id => variant_value.variant_type.id })
+              .save!
         end
         self.product_variant_values.build({
             :variant_type_id => variant_value.variant_type.id,

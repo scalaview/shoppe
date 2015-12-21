@@ -1,7 +1,7 @@
 class CreateShoppeStockkeepingUnits < ActiveRecord::Migration
   def change
     create_table :shoppe_stockkeeping_units do |t|
-      t.string    :product_id,    null: false
+      t.integer    :product_id,    null: false
       t.string    :sku
       t.boolean   :active,        default: true
       t.boolean   :stock_control, default: true
