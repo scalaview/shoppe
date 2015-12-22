@@ -30,7 +30,7 @@ module Shoppe
       transaction do
         unless self.parent.product_variant_types.where(:variant_type_id => variant_value.variant_type.id).present?
           self.parent.product_variant_types
-              .build({ :product_id => self.product.id, :variant_type_id => variant_value.variant_type.id })
+              .build({ :product_id => self.parent.id, :variant_type_id => variant_value.variant_type.id })
               .save!
         end
         self.product_variant_values.build({

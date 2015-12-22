@@ -7,7 +7,7 @@ module Shoppe
 
     belongs_to :variant_value, :class_name => 'Shoppe::VariantValue'
 
-    validates_uniqueness_of :stockkeeping_unit_id, :scope => [:variant_value_id, :variant_type_id]
+    validates_uniqueness_of :stockkeeping_unit_id, :scope => :variant_type_id
 
     before_save do
       variant_value.present? && (variant_type_id = variant_value.variant_type_id)
