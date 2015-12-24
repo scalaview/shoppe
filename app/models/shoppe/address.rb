@@ -48,6 +48,9 @@ module Shoppe
     scope :billing, -> { where(address_type: "billing").last}
     scope :delivery, -> { where(address_type: "delivery").last}
 
+
+    before_save :reset_default
+
     def full_address
       [address1, address2, address3, address4, postcode, country.try(:name)].join(", ")
     end
@@ -81,6 +84,14 @@ module Shoppe
     def full_name(province, city, area)
       @name_list = Shoppe::Region.where("code in (?)", [province, city, area]).pluck(:name)
       @full_name = @name_list.join("")
+    end
+
+    def reset_default
+      if self.default?
+        Address.where(:customer_id => self.customer_id).where("id != ? ", self.id).update_all(:default => false)
+      elsif Address.where(customer_id: self.customer_id).blank?
+        self.default = true
+      end
     end
 
   end
