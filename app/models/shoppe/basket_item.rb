@@ -57,6 +57,7 @@ module Shoppe
     end
 
     def in_stock?
+      return true
       if self.sku && self.sku.stock_control?
         self.sku.stock >= quantity
       else
@@ -77,11 +78,11 @@ module Shoppe
       def add_item(ordered_item, quantity = 1)
         raise Errors::UnorderableItem, :ordered_item => ordered_item unless ordered_item.orderable?
         transaction do
-          if existing = self.where(:sku => ordered_item.id).first
+          if existing = self.where(:stockkeeping_unit_id => ordered_item.id).first
             existing.increase(quantity)
             existing
           else
-            new_item = self.create(:sku => ordered_item, :quantity => 0)
+            new_item = self.create(:stockkeeping_unit_id => ordered_item.id, :quantity => quantity)
             new_item.increase(quantity)
             new_item
           end

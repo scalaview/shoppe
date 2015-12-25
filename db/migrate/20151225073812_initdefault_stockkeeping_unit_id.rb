@@ -8,6 +8,6 @@ class InitdefaultStockkeepingUnitId < ActiveRecord::Migration
         puts " #{p.id} set sku fail, #{p.errors.full_messages.join(': ')}"
       end
     end
-    Shoppe::Product.where(:default_stockkeeping_unit_id => nil).destory_all
+    Shoppe::Product.where(:default_stockkeeping_unit_id => nil).destroy_all
   end
 end
