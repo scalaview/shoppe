@@ -34,10 +34,14 @@ module Shoppe
     end
 
     def stockkeeping_unit=(attrs)
-      if self.stockkeeping_unit.blank?
-        self.create_stockkeeping_unit attrs.merge(:product_id => self.id)
-      else
-        stockkeeping_unit.update_attributes attrs
+      if attrs.is_a? StockkeepingUnit
+        super(attrs)
+      elsif attrs.is_a? Hash
+        if self.stockkeeping_unit.blank?
+          self.create_stockkeeping_unit attrs.merge(:product_id => self.id)
+        else
+          stockkeeping_unit.update_attributes attrs
+        end
       end
     end
 
