@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency "fog", "~> 1.36.0"
   s.add_dependency "mini_magick", "~> 4.2.7"
   s.add_dependency 'finite_machine', '~> 0.11.0'
+  s.add_dependency 'ancestry', '~> 2.1'
 
   s.add_development_dependency "coffee-rails", "~> 4"
   s.add_development_dependency "sass-rails", "~> 4.0"
